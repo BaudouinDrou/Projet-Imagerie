@@ -1,0 +1,104 @@
+#!/usr/bin/python2
+#-*- coding: UTF-8 -*-
+
+from __future__ import print_function, division
+
+import Image
+import PSDraw
+from random import randint
+
+def connex8(x,y,data, size):
+	xsize, ysize = size
+	shift_x = 1
+	shift_y = xsize
+	rep = [(0,0,0)]*9
+	#le tableau est de la forme rep = [V(x0,y0), V(x,y0), V(x+1,y0), ...., V(x+1,y+1)] ou V(x,y) est la valeur du pixel a la pos (x,y).
+	if y == 0 : #traitement du cas particulier de la premiere ligne
+		for i in range(3):
+			rep[i] = False
+	if x == xsize-1: #traitement du cas particulier de la derniere colonne
+		for i in range(3):
+			rep[i*3+2] = False
+	if y == ysize-1: #traitement du cas particulier de la derniere ligne
+		for i in range(3):
+			rep[i+6] = False
+	if x == 0: #traitement du cas particulier de la premiere colonne
+		for i in range(3):
+			rep[i*3] = False
+	#Cas général
+	for i in range(3):
+		for j in range(3):
+			if (rep[i*3 + j] != False):
+				rep[i*3+j] = data[(j-1 + x)*shift_x + (i-1+y)*shift_y]
+	return rep
+
+
+def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant un voisinnage de 8-connexité sur des données d'images
+	xsize, ysize = size
+	shift_x = 1
+	shift_y = xsize
+	res = [0]*ysize*xsize
+	div = 0
+	for a in range(9):
+		div += mask[a]
+	if div == 0:
+		div = 1
+	for x in range(xsize):
+		for y in range(ysize):
+			if mode == 'NB':	#Cas NB
+				voisins = connex8(x,y,data, size)
+				for i in range(3):
+					for j in range(3):
+						val = 0
+						if voisins[i*3+j] != False:
+							val = voisins[i*3+j]
+						val += mask[i*3+j]*voisins[i*3+j]
+				res[x*shift_x+y*shift_y] = val/div
+			else:				#Cas couleur
+				voisins = connex8(x,y,data, size)
+				valR,valG,valB = 0,0,0
+				for i in range(3):
+					for j in range(3):
+						R,G,B = 0,0,0
+						if voisins[i*3+j] != False:
+							R,G,B = voisins[i*3+j]
+						valR += mask[i*3+j]*R
+						valG += mask[i*3+j]*G
+						valB += mask[i*3+j]*B
+				res[x*shift_x+y*shift_y] = (int(valR/div),int(valG/div),int(valB/div))
+	return res
+
+def applyLUT(LUT,data,mode, size):			#LUT unidimensionnel en NB et bidimensionnel (3*256) en couleurs
+	xsize, ysize = size
+	shift_x = 1
+	shift_y = xsize
+	if mode == 'NB':
+		for y in range(ysize):
+			for x in range(xsize):
+				data[x*shift_x + y*shift_y] = LUT[data[x*shift_x + y*shift_y]]	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
+	else:
+		for y in range(ysize):
+			for x in range(xsize):
+				(R, V, B) = data[x*shift_x + y*shift_y]
+				data[x*shift_x + y*shift_y] = (LUT[0][R], LUT[1][V], LUT[2][B])	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
+	return data
+
+def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension
+	LUT2D = [0] * 3
+	for j in range(3):
+		LUT2D[j] = [0]*256
+	for i in range(256):
+		LUT2D[0][i] = LUT[i]
+		LUT2D[1][i] = LUT[i]
+		LUT2D[2][i] = LUT[i]
+	return LUT2D
+
+
+
+
+
+
+
+
+
+
