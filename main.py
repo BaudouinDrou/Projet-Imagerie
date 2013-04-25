@@ -3,22 +3,22 @@
 
 # Objectifs :
 #
-# -> charger l'image dans le canvas
-# -> ouvrir une à partir du programmme pour la modifier
+# -> charger l'image dans le canvas CLEAR
+# -> ouvrir une à partir du programmme pour la modifier CLEAR
 # -> creer une barre d'outils suplémentaire (afin de pouvoir par exemple revenir en arrière)
 # -> rendre fonctionnel le filtre dessin et creer de nouveaux filtres (dont celui de l'histogramme tel qu'enoncé dans le sujet)
 # -> creer une barre de chargement
-# -> donner la possibilté de revenir en arriere en stockant les anciennes images dans un tableau tabIm (à mettre dans la classe Image_open)
-# mais en limitant à un maximum de 15 images (arbitraire).=> implique compliqcations pour connaitre l'emplacement de la dernière image : on fait un champ indice en plus ?
-# -> donner la possibilité de réinitialiser l'image (utiliser le champ tabIm donnant la liste des images )
+# -> donner la possibilté de revenir en arriere en stockant les anciennes images dans un tableau (à mettre dans la classe Image_open)
+# mais en limitant à un maximum de 15 images (arbitraire).
+# -> donner la possibilité de réinitialiser l'image (utiliser le champs Image_open.tabPixOriginal)
 
 from __future__ import print_function, division
-
+import sys
 from Tkinter import Tk, Frame, Canvas
 import ImageTk
-
 from Filtres import *
-
+from tkSimpleDialog import *
+import tkFileDialog
 from PIL import *
 from Image import *
 
@@ -27,85 +27,97 @@ from Filtres import *
 
 from fenetres import *
 import time
-
-image = Image_open("images/imgtest.jpg")
-#im = Image.open("images/imgtest.jpg")
+fen = Tk()
+image = Image_open("images/imgUbuntu.jpg")
+#xsize, ysize = xsize//2,ysize//2
+#image = Image_open("NONE")
+largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
-xsize, ysize = xsize//2,ysize//2
-im = image.donneImage().resize((xsize, ysize))
+#image.image = image.image.resize((xsize, ysize))
+
+def actualiserCanvas(image,xsize,ysize):
+	photo = ImageTk.PhotoImage(image)
+	workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+	workbench.pack(photo)
 
 def moyen2():
 	filtre = Filtre()
 	filtre.moyen(image)
+	actualiserCanvas(image.image,xsize,ysize)
 
 
 def contour2():
-    im2 = image.donneImage().copy()
-    filtre = Filtre()
-    t = filtre.contour(image)
-    im2.putdata(t)
-    im2.show()
+	filtre = Filtre()
+	t = filtre.contour(image)
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
 
 
 def inversion2():
-    im2 = image.donneImage().copy()
-    filtre = FiltreLut()
-    t = filtre.inversionC(image)
-    im2.putdata(t)
-    im2.show()
-    workbench.create_image(xsize/2,ysize/2, image = ImageTk.PhotoImage(im2))
-    workbench.grid(column=1,row=1)
+	filtre = FiltreLut()
+	t = filtre.inversionC(image)
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
+	
 
 def filtreCouleurVert():
-	im2 = image.donneImage().copy()
 	filtre = Filtre()
 	t = filtre.filtreCouleurVert(image)
-	im2.putdata(t)
-	im2.show()
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
 	t = filtre.filtreCouleurRouge(image)
-	image.donneImage().putdata(t)
-	image.tabIm[len(image.tabIm)-1] = image.donneImage().resize((xsize, ysize))
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
 
 def filtreCouleurBleu():
-	#im = donneImage().copy()
 	filtre = Filtre()
 	t = filtre.filtreCouleurBleu(image)
-	image.donneImage().putdata(t)
-	image.tabIm[len(image.tabIm)-1] = image.donneImage().resize((xsize, ysize))
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
 
 def dessinCanvas():
-	im2 = image.donneImage().copy()
 	filtre = Filtre()
 	t = filtre.dessin(image)
-	im2.putdata(t)
-	im2.show()
+	image.image.putdata(t)
+	actualiserCanvas(image.image,xsize,ysize)
 	
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
+	actualiserCanvas(image.image,xsize,ysize)
+	
+def choisirImage():
+	try :
+		chemin = tkFileDialog.askopenfilename(filetypes = [("Bilddateien", "*.jpg *.png *.gif *jpeg")])
+		flag = True
+	except : 
+		flag = False
+	if(flag == True):
+		workbench.delete(fen,"All")
+		image.reInit(chemin)
+		actualiserCanvas(image.image,xsize,ysize)
+		
+	
 	
 # -------------- MAIN ----------------------
 
-fen = Tk()
 
-filtreCouleurRouge()
-defaultBackground = ImageTk.PhotoImage(image.donneImage())
+#defaultBackground = ImageTk.PhotoImage(image.image)
 
-workbench = Canvas(fen,height=ysize,width=xsize,bg="#000")
-workbench.create_image(xsize/2,ysize/2, image=defaultBackground)
-workbench.grid(column=1,row=1)
+workbench = Canvas(fen,height=hauteurEcran,width=largeurEcran,bg="#666")
+#workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=defaultBackground)
+workbench.grid(row = 1, column = 1, rowspan = 20, columnspan = 200)
 
 statut = Label(text="Commencez le traitement !")
-statut.grid(column=1,row=2)
+statut.grid(column=1,row=22)
 
 menuTop = Menu(fen)
 
 menuImage = Menu(menuTop)
 menuImage.add_command(label="Nouvelle Image",command=None)
 menuImage.add_separator()
-menuImage.add_command(label="Afficher",command=im.show)
 menuImage.add_command(label="Quitter",command=fen.destroy)
 
 menuFiltre = Menu(menuTop)
@@ -127,10 +139,20 @@ menuAide.add_command(label="A propos ...",command=afficherAPropos)
 menuTop.add_cascade(label="Image",menu=menuImage)
 menuTop.add_cascade(label="Filtre",menu=menuFiltre)
 menuTop.add_cascade(label="?",menu=menuAide)
-
+bouton1 = Button(fen,background = "#333",command=reinitialiserImageCanvas)
+bouton1.width = 1
+bouton1.height = 1
+imgBouton = ImageTk.PhotoImage(file = "images/precedent.png")
+bouton1.configure(image = imgBouton)
+bouton1.grid(row = 0, column = 1)
+bouton2 = Button(fen, background = "#333",command=choisirImage)
+bouton2.width = 1
+bouton2.height = 1
+bouton2.grid(row = 0, column = 2)
+imgBouton2 = ImageTk.PhotoImage(file = "images/ouvrir_fichier.png")
+bouton2.configure(image = imgBouton2)
 fen.title("Traitement photo")
 
 fen.config(menu=menuTop)
 
 fen.mainloop()
-
