@@ -10,5 +10,11 @@ def afficherAPropos():
 def afficherOutils():
     tkMessageBox.showinfo("Outils","Sandwish et cornichons\n")
 
+def nonRetourArriere():
+	tkMessageBox.showinfo("Erreur","Impossible de revenir en arrière\n")
+	
+def nonRetourAvant():
+	tkMessageBox.showinfo("Erreur","Impossible d'aller à l'image suivante\n")
+
 def genericTextBox():
     tkMessageBox.showinfo("Title","Text\n")

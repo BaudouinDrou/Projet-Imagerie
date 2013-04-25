@@ -24,16 +24,15 @@ from Image import *
 
 from filtreTool import *
 from Filtres import *
-
 from fenetres import *
 import time
 fen = Tk()
-image = Image_open("images/imgUbuntu.jpg")
+image = Image_open("images/imgtest.jpg")
 #xsize, ysize = xsize//2,ysize//2
 #image = Image_open("NONE")
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
-#image.image = image.image.resize((xsize, ysize))
+#image.donneImage() = image.donneImage().resize((xsize, ysize))
 
 def actualiserCanvas(image,xsize,ysize):
 	photo = ImageTk.PhotoImage(image)
@@ -43,50 +42,50 @@ def actualiserCanvas(image,xsize,ysize):
 def moyen2():
 	filtre = Filtre()
 	filtre.moyen(image)
-	actualiserCanvas(image.image,xsize,ysize)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
 def contour2():
 	filtre = Filtre()
 	t = filtre.contour(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
 def inversion2():
 	filtre = FiltreLut()
 	t = filtre.inversionC(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 
 def filtreCouleurVert():
 	filtre = Filtre()
 	t = filtre.filtreCouleurVert(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
 	t = filtre.filtreCouleurRouge(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def filtreCouleurBleu():
 	filtre = Filtre()
 	t = filtre.filtreCouleurBleu(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def dessinCanvas():
 	filtre = Filtre()
 	t = filtre.dessin(image)
-	image.image.putdata(t)
-	actualiserCanvas(image.image,xsize,ysize)
+	image.donneImage().putdata(t)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
-	actualiserCanvas(image.image,xsize,ysize)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 def choisirImage():
 	try :
@@ -96,15 +95,15 @@ def choisirImage():
 		flag = False
 	if(flag == True):
 		workbench.delete(fen,"All")
-		image.reInit(chemin)
-		actualiserCanvas(image.image,xsize,ysize)
-		
-	
-	
+		image.changerImage(chemin)
+		actualiserCanvas(image.donneImage(),xsize,ysize)
+
+
+
 # -------------- MAIN ----------------------
 
 
-#defaultBackground = ImageTk.PhotoImage(image.image)
+#defaultBackground = ImageTk.PhotoImage(image.donneImage())
 
 workbench = Canvas(fen,height=hauteurEcran,width=largeurEcran,bg="#666")
 #workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=defaultBackground)

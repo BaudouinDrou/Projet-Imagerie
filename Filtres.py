@@ -6,43 +6,73 @@ from Tkinter import *
 import Image
 import PSDraw
 from filtreTool import *
+from fenetres import *
 
 class Image_open:
 
 	""" Classe definissant une image caracterisee par :
 	- son nom
-	- l'image correspondant au nom'
-	- son tableau de pixel
+	- l'image correspondant au nom
+	- son tableau de pixel modifié
+	- son tableau de pixel original
 	- sa largeur 
 	- sa longeur
-	- (le filtre lui ayant ete applique ?)"""
+	- indice image en cours"""
 	
 	def __init__(self,nom):
 		R,V,B = 0,0,0
 		self.nom = nom
+		self.tabIm = []
 		try :
-			self.image = Image.open(nom)
+			self.tabIm.append(Image.open(nom))
+			self.indice = 0
+			self.indiceMax = 0
 			try : 
-				self.tabPixOriginal = list(self.image.getdata())
-				self.tabPix = list(self.image.getdata())
+				self.tabPixOriginal = list(self.tabIm[0].getdata())
+				self.tabPix = list(self.tabIm[0].getdata())
 			except :
 				self.tabPix = 0
 				print("L'image n'a pas pu etre converti en tableau de pixel")
-			self.largeur, self.hauteur = self.image.size
+			self.largeur, self.hauteur = self.tabIm[0].size
 			try : 
 				R,V,B = self.tabPix[0]
 				self.mode = "couleur"
 			except :
 				self.mode = "NB"
 		except :
-			self.image = 0
+			self.indice = -1
+			self.tabIm.append(0)
 			print("L'image n'a pas pu etre ouverte")
 	
 	def donneMode(self):
 		print(self.mode)
 		return self.mode
 	
-	def reInit(self,nom):
+	def donneImage(self, indice = None): #Par defaut, image en cours
+		if (indice == None):
+			indice = self.indice
+		return self.tabIm[indice]
+	
+	def ajouterImage(self,image):
+		self.tabIm.append(image)
+		self.indice += 1
+		self.indiceMax = indice
+	
+	def retourArriere(self):
+		if(sefl.indice > 0):
+			self.indice -= 1
+			return self.tabIm[self.indice]
+		else:
+			nonRetourArriere()
+	
+	def retourAvant(self):
+		if(self.indice < self.indiceMax):
+			self.indice += 1
+			return sefl.tabIm[self.indice]
+		else:
+			nonRetourAvant()
+	
+	def changerImage(self,nom):
 		R,V,B = 0,0,0
 		self.nom = nom
 		try :
@@ -65,8 +95,6 @@ class Image_open:
 			
 	def donneVoisins(self, x,y,mode):
 		rep = [(0,0,0)]*9
-	
-	
 		#le tableau est de la forme rep = [V(x-1,y-1), V(x,y-1), V(x+1,y-1), ...., V(x+1,y+1)] ou V(x,y) est la valeur du pixel a la pos (x,y).
 		if y == 0 : #traitement du cas particulier de la premiere ligne
 			for i in range(3):
@@ -84,7 +112,6 @@ class Image_open:
 			for j in range(3):
 				if rep[i*3 + j] != 'abs':
 					rep[i*3+j] = self.tabPix[(j-1 + x)*1 + (i-1+y)*self.largeur]
-	
 		if(mode == 4):
 			rep[0] = rep[1]
 			rep[1] = rep[3]
