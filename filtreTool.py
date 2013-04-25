@@ -93,6 +93,27 @@ def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie
 		LUT2D[2][i] = LUT[i]
 	return LUT2D
 
+def copyTabPix(tabPix):
+	try :
+		R,V,B = tabPix[0]
+		mode = "couleur"
+	except :
+		mode = "NB"
+	if(mode == "couleur"):
+		tabCopy = [0] * len(tabPix)
+		for i in range(len(tabPix)):
+			tabCopy[i] = tabPix[i]
+	else:
+		tabCopy = [0]*len(tabPix)
+		for i in range(len(tabPix)):
+			tabCopy[i] = tabPix[i]
+	return tabCopy
+
+def reinitialiserImage(Image_open):
+	Image_open.tabPix = copyTabPix(Image_open.tabPixOriginal)
+	Image_open.image.putdata(Image_open.tabPix)
+	print("tabReinit : ")
+	print(Image_open.tabPix[0])
 
 
 
