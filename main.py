@@ -27,7 +27,7 @@ from Filtres import *
 from fenetres import *
 import time
 fen = Tk()
-image = Image_open("images/imgtest.jpg")
+image = Image_open("images/imgUbuntu.jpg")
 #xsize, ysize = xsize//2,ysize//2
 #image = Image_open("NONE")
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
@@ -91,11 +91,12 @@ def choisirImage():
 	try :
 		chemin = tkFileDialog.askopenfilename(filetypes = [("Bilddateien", "*.jpg *.png *.gif *jpeg")])
 		flag = True
-	except : 
+	except :
 		flag = False
 	if(flag == True):
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
+		print("Coucouc\n")
 		actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
