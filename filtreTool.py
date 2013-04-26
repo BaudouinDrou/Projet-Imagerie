@@ -6,6 +6,7 @@ from __future__ import print_function, division
 import Image
 import PSDraw
 from random import randint
+from math import sqrt
 
 def connex8(x,y,data, size):
 	xsize, ysize = size
@@ -39,7 +40,9 @@ def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant u
 	shift_y = xsize
 	res = [0]*ysize*xsize
 	div = 0
-	for a in range(9):
+	N = len(mask)
+	n = int(sqrt(N))
+	for a in range(N):
 		div += mask[a]
 	if div == 0:
 		div = 1
@@ -47,24 +50,24 @@ def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant u
 		for y in range(ysize):
 			if mode == 'NB':	#Cas NB
 				voisins = connex8(x,y,data, size)
-				for i in range(3):
-					for j in range(3):
+				for i in range(n):
+					for j in range(n):
 						val = 0
-						if voisins[i*3+j] != False:
-							val = voisins[i*3+j]
-						val += mask[i*3+j]*voisins[i*3+j]
+						if voisins[i*n+j] != False:
+							val = voisins[i*n+j]
+						val += mask[i*n+j]*voisins[i*n+j]
 				res[x*shift_x+y*shift_y] = val/div
 			else:				#Cas couleur
 				voisins = connex8(x,y,data, size)
 				valR,valG,valB = 0,0,0
-				for i in range(3):
-					for j in range(3):
+				for i in range(n):
+					for j in range(n):
 						R,G,B = 0,0,0
-						if voisins[i*3+j] != False:
-							R,G,B = voisins[i*3+j]
-						valR += mask[i*3+j]*R
-						valG += mask[i*3+j]*G
-						valB += mask[i*3+j]*B
+						if voisins[i*n+j] != False:
+							R,G,B = voisins[i*n+j]
+						valR += mask[i*n+j]*R
+						valG += mask[i*n+j]*G
+						valB += mask[i*n+j]*B
 				res[x*shift_x+y*shift_y] = (int(valR/div),int(valG/div),int(valB/div))
 	return res
 
