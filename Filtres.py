@@ -24,9 +24,7 @@ class Image_open:
 		self.nom = nom
 		self.tabIm = []
 		try :
-			self.tabIm.append(Image.open(nom))
-			self.indice = 0
-			self.indiceMax = 0
+			self.reinit(Image.open(nom))
 			try : 
 				self.tabPixOriginal = list(self.tabIm[0].getdata())
 				self.tabPix = list(self.tabIm[0].getdata())
@@ -57,6 +55,13 @@ class Image_open:
 		self.tabIm.append(image)
 		self.indice += 1
 		self.indiceMax = self.indice
+	
+	def reinit(self,image):
+		self.tabIm = []
+		self.tabIm.append(image)
+		self.indice = 0
+		self.indiceMax = 0
+		
 	
 	def retourArriere(self):
 		if(self.indice > 0):
@@ -161,7 +166,6 @@ class Filtre:
 				res[j*1 + i*Image_open.largeur] = moyenR,moyenV,moyenB
 		return res
 
-
 	def filtreMedian(self,Image_open):
 		tmp = [(0,0,0)]*9
 		res = [(0,0,0)]*(Image_open.largeur)*(Image_open.hauteur)
@@ -172,18 +176,23 @@ class Filtre:
 				res[j*1 + i*Image_open.largeur] = tmp[3]
 		return res
 
-
 	def moyen(self,Image_open):
-		t = list(Image_open.image.getdata())
+		t = list(Image_open.donneImage().getdata())
 		mask = [1,1,1,1,1,1,1,1,1]
-		size = Image_open.donneImage().size
-		return applyMask(mask,t,"couleur", size)
+		size = (Image_open.largeur,Image_open.hauteur)
+		return applyMask(mask,t,Image_open.donneMode(), size)
 
+	def gaussien(self,sigma):
+		t = list(Image_open.donneImage().getdata())
+		mask = [1,2,1,2,5,2,1,2,1]
+		size = (Image_open.largeur,Image_open.hauteur)
+		return applyMask(mask,t,image.donneMode(), size)
 
 	def contour(self,Image_open):
 		t = list(Image_open.donneImage().getdata())
 		mask = [0,0,0,-1,1,0,0,0,0]
-		return applyMask(mask,t,'couleur',(Image_open.largeur,Image_open.hauteur))
+		size = (Image_open.largeur,Image_open.hauteur)
+		return applyMask(mask,t,Image_open.donneMode(),size)
 
 	def filtreCouleurRouge(self, Image_open):
 		if(Image_open.donneMode() == "couleur"):
