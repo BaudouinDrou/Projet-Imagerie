@@ -31,6 +31,20 @@ image = Image_open("images/imgUbuntu.jpg")
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
 
+		
+def redimensionner(image_open):
+	imTmp1 = image_open.donneImage().copy()
+	if((image_open.largeur > largeurEcran) or(image_open.hauteur > hauteurEcran)):
+		if(largeurEcran/image_open.largeur <= hauteurEcran/image_open.hauteur):
+			imTmp1 = imTmp1.resize((largeurEcran,int(image_open.hauteur*largeurEcran/image_open.largeur)))
+			image_open.largeur, image_open.hauteur = (largeurEcran,int(image_open.hauteur*largeurEcran/image_open.largeur))
+		else:
+			imTmp1 = imTmp1.resize((int(image_open.largeur*hauteurEcran/image_open.hauteur),hauteurEcran))
+			image_open.largeur, image_open.hauteur = (int(image_open.largeur*hauteurEcran/image_open.hauteur),hauteurEcran)
+		image_open.ajouterImage(imTmp1)
+		image_open.tabPix = list(imTmp1.getdata())
+		
+
 def actualiserCanvas(image,xsize,ysize):
 	photo = ImageTk.PhotoImage(image)
 	workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
@@ -115,9 +129,8 @@ def choisirImage():
 	if(flag == True):
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
-		image.donneImage().resize((xsize-100,ysize - 100))
+		redimensionner(image)
 		actualiserCanvas(image.donneImage(),xsize,ysize)
-
 
 
 # -------------- MAIN ----------------------
