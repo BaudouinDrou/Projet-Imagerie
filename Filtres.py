@@ -52,7 +52,7 @@ class Image_open:
 	
 	def ajouterImage(self,image):
 		try:
-			self.tabIm[indice] = image
+			self.tabIm[self.indice] = image
 		except:
 			self.tabIm.append(image)
 		self.indice += 1
