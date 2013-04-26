@@ -75,22 +75,26 @@ class Image_open:
 	def changerImage(self,nom):
 		R,V,B = 0,0,0
 		self.nom = nom
+		self.tabIm = []
 		try :
-			self.image = Image.open(nom)
+			self.tabIm.append(Image.open(nom))
+			self.indice = 0
+			self.indiceMax = 0
 			try : 
-				self.tabPixOriginal = list(self.image.getdata())
-				self.tabPix = list(self.image.getdata())
+				self.tabPixOriginal = list(self.tabIm[0].getdata())
+				self.tabPix = list(self.tabIm[0].getdata())
 			except :
 				self.tabPix = 0
 				print("L'image n'a pas pu etre converti en tableau de pixel")
-			self.largeur, self.hauteur = self.image.size
+			self.largeur, self.hauteur = self.tabIm[0].size
 			try : 
 				R,V,B = self.tabPix[0]
 				self.mode = "couleur"
 			except :
 				self.mode = "NB"
 		except :
-			self.image = 0
+			self.indice = -1
+			self.tabIm.append(0)
 			print("L'image n'a pas pu etre ouverte")
 			
 	def donneVoisins(self, x,y,mode):
