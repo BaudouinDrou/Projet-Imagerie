@@ -23,22 +23,16 @@ class Image_open:
 		R,V,B = 0,0,0
 		self.nom = nom
 		self.tabIm = []
+		self.largeur = 0
+		self.hauteur = 0
+		self.tabPix = []
+		self.tabPixOriginal = []
+		self.indice = 0
+		self.indiceMax = 0
 		try :
-			self.tabIm.append(Image.open(nom))
-			self.indice = 0
-			self.indiceMax = 0
-			try : 
-				self.tabPixOriginal = list(self.tabIm[0].getdata())
-				self.tabPix = list(self.tabIm[0].getdata())
-			except :
-				self.tabPix = 0
-				print("L'image n'a pas pu etre converti en tableau de pixel")
-			self.largeur, self.hauteur = self.tabIm[0].size
-			try : 
-				R,V,B = self.tabPix[0]
-				self.mode = "couleur"
-			except :
-				self.mode = "NB"
+			self.reinit(Image.open(nom))
+			self.tabPixOriginal = list(self.tabIm[0].getdata())
+			self.actualiseDonnees()
 		except :
 			self.indice = -1
 			self.indiceMax = -1
@@ -60,6 +54,29 @@ class Image_open:
 			self.tabIm[self.indice] = image
 		else:
 			self.tabIm.append(image)
+		self.actualiseDonnees()
+		
+	def actualiseTabPix(self):
+		try:
+			self.tabPix = list(self.tabIm[self.indice].getdata())
+		except:
+			self.tabPix = 0
+			print("L'image n'a pas pu etre converti en tableau de pixel")
+	
+	def actualiseTaille(self):
+		self.largeur, self.hauteur = self.tabIm[self.indice].size
+		
+	def actualiseMode(self):
+		try:
+			R,V,B = self.tabPix[self.indice]
+			self.mode = "couleur"
+		except:
+			self.mode = "NB"
+	
+	def actualiseDonnees(self):
+		self.actualiseMode()
+		self.actualiseTabPix()
+		self.actualiseTaille()
 	
 	def reinit(self,image):
 		self.tabIm = []
@@ -71,6 +88,7 @@ class Image_open:
 	def retourArriere(self):
 		if(self.indice > 0):
 			self.indice -= 1
+			self.actualiseDonnees()
 			return self.tabIm[self.indice]
 		else:
 			nonRetourArriere()
