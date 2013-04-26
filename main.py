@@ -28,11 +28,8 @@ from fenetres import *
 import time
 fen = Tk()
 image = Image_open("images/imgUbuntu.jpg")
-#xsize, ysize = xsize//2,ysize//2
-#image = Image_open("NONE")
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
-#image.donneImage() = image.donneImage().resize((xsize, ysize))
 
 def actualiserCanvas(image,xsize,ysize):
 	photo = ImageTk.PhotoImage(image)
@@ -96,7 +93,6 @@ def choisirImage():
 	if(flag == True):
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
-		print("Coucouc\n")
 		actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
@@ -104,10 +100,7 @@ def choisirImage():
 # -------------- MAIN ----------------------
 
 
-#defaultBackground = ImageTk.PhotoImage(image.donneImage())
-
 workbench = Canvas(fen,height=hauteurEcran,width=largeurEcran,bg="#666")
-#workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=defaultBackground)
 workbench.grid(row = 1, column = 1, rowspan = 20, columnspan = 200)
 
 statut = Label(text="Commencez le traitement !")
