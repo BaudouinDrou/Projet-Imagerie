@@ -24,7 +24,9 @@ class Image_open:
 		self.nom = nom
 		self.tabIm = []
 		try :
-			self.reinit(Image.open(nom))
+			self.tabIm.append(Image.open(nom))
+			self.indice = 0
+			self.indiceMax = 0
 			try : 
 				self.tabPixOriginal = list(self.tabIm[0].getdata())
 				self.tabPix = list(self.tabIm[0].getdata())
@@ -39,6 +41,7 @@ class Image_open:
 				self.mode = "NB"
 		except :
 			self.indice = -1
+			self.indiceMax = -1
 			self.tabIm.append(0)
 			print("L'image n'a pas pu etre ouverte")
 	
@@ -51,12 +54,12 @@ class Image_open:
 		return self.tabIm[indice]
 	
 	def ajouterImage(self,image):
-		try:
-			self.tabIm[self.indice] = image
-		except:
-			self.tabIm.append(image)
 		self.indice += 1
 		self.indiceMax = self.indice
+		if(self.indice < len(self.tabIm)):
+			self.tabIm[self.indice] = image
+		else:
+			self.tabIm.append(image)
 	
 	def reinit(self,image):
 		self.tabIm = []

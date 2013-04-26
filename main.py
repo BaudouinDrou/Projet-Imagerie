@@ -41,7 +41,7 @@ def redimensionner(image_open):
 		else:
 			imTmp1 = imTmp1.resize((int(image_open.largeur*hauteurEcran/image_open.hauteur),hauteurEcran))
 			image_open.largeur, image_open.hauteur = (int(image_open.largeur*hauteurEcran/image_open.hauteur),hauteurEcran)
-		image_open.ajouterImage(imTmp1)
+		image_open.reinit(imTmp1)
 		image_open.tabPix = list(imTmp1.getdata())
 		xsize,ysize = image_open.largeur, image_open.hauteur
 		
