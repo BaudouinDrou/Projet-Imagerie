@@ -43,7 +43,6 @@ class Image_open:
 			print("L'image n'a pas pu etre ouverte")
 	
 	def donneMode(self):
-		print(self.mode)
 		return self.mode
 	
 	def donneImage(self, indice = None): #Par defaut, image en cours
@@ -200,8 +199,9 @@ class Filtre:
 	def filtreCouleur(self, Image_open,couleur): #couleur est soit R, soit V, soit B
 		t = Image_open.tabPix
 		R,V,B = 0,0,0
+		boolMode = (Image_open.donneMode() == "couleur")
 		for i in range(len(t)):
-			if(Image_open.donneMode() == "couleur"):
+			if(boolMode):
 				R,V,B = t[i]
 			else:
 				R,V,V = t[i],t[i],t[i]
