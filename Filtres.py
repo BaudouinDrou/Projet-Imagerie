@@ -204,7 +204,7 @@ class Filtre:
 			if(boolMode):
 				R,V,B = t[i]
 			else:
-				R,V,V = t[i],t[i],t[i]
+				R,V,B = t[i],t[i],t[i]
 			if(couleur=='R'):
 				t[i] = R,0,0
 			elif(couleur=='V'):
@@ -212,17 +212,7 @@ class Filtre:
 			else:
 				t[i] = 0,0,B
 		return t
-	
-#	def filtreCouleurBleu(self, Image_open):
-#		if(Image_open.donneMode() == "couleur"):
-#			t = Image_open.tabPix
-#			R,V,B = 0,0,0
-#			print(t[0])
-#			for i in range(len(t)):
-#				R,V,B = t[i]
-#				t[i] = 0,0,B
-#		return t
-		
+			
 	def rotation(self,Image_open,sens):
 		t = list(Image_open.getdata())
 		data = [0]*Image_open.largeur*Image_open.hauteur

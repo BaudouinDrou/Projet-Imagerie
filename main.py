@@ -33,8 +33,8 @@ xsize,ysize = image.largeur, image.hauteur
 
 		
 def redimensionner(image_open):
-	imTmp1 = image_open.donneImage().copy()
 	if((image_open.largeur > largeurEcran) or(image_open.hauteur > hauteurEcran)):
+		imTmp1 = image_open.donneImage().copy()
 		if(largeurEcran/image_open.largeur <= hauteurEcran/image_open.hauteur):
 			imTmp1 = imTmp1.resize((largeurEcran,int(image_open.hauteur*largeurEcran/image_open.largeur)))
 			image_open.largeur, image_open.hauteur = (largeurEcran,int(image_open.hauteur*largeurEcran/image_open.largeur))
@@ -43,6 +43,7 @@ def redimensionner(image_open):
 			image_open.largeur, image_open.hauteur = (int(image_open.largeur*hauteurEcran/image_open.hauteur),hauteurEcran)
 		image_open.ajouterImage(imTmp1)
 		image_open.tabPix = list(imTmp1.getdata())
+		xsize,ysize = image_open.largeur, image_open.hauteur
 		
 
 def actualiserCanvas(image,xsize,ysize):
