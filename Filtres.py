@@ -52,7 +52,10 @@ class Image_open:
 		return self.tabIm[indice]
 	
 	def ajouterImage(self,image):
-		self.tabIm.append(image)
+		try:
+			self.tabIm[indice] = image
+		except:
+			self.tabIm.append(image)
 		self.indice += 1
 		self.indiceMax = self.indice
 	
@@ -186,7 +189,7 @@ class Filtre:
 		t = list(Image_open.donneImage().getdata())
 		mask = [1,2,1,2,5,2,1,2,1]
 		size = (Image_open.largeur,Image_open.hauteur)
-		return applyMask(mask,t,image.donneMode(), size)
+		return applyMask(mask,t,Image_open.donneMode(), size)
 
 	def contour(self,Image_open):
 		t = list(Image_open.donneImage().getdata())
@@ -194,35 +197,31 @@ class Filtre:
 		size = (Image_open.largeur,Image_open.hauteur)
 		return applyMask(mask,t,Image_open.donneMode(),size)
 
-	def filtreCouleurRouge(self, Image_open):
-		if(Image_open.donneMode() == "couleur"):
-			t = Image_open.tabPix
-			R,V,B = 0,0,0
-			print(t[0])
-			for i in range(len(t)):
+	def filtreCouleur(self, Image_open,couleur): #couleur est soit R, soit V, soit B
+		t = Image_open.tabPix
+		R,V,B = 0,0,0
+		for i in range(len(t)):
+			if(Image_open.donneMode() == "couleur"):
 				R,V,B = t[i]
+			else:
+				R,V,V = t[i],t[i],t[i]
+			if(couleur=='R'):
 				t[i] = R,0,0
-		return t
-	
-	def filtreCouleurVert(self, Image_open):
-		if(Image_open.donneMode() == "couleur"):
-			t = Image_open.tabPix
-			R,V,B = 0,0,0
-			print(t[0])
-			for i in range(len(t)):
-				R,V,B = t[i]
+			elif(couleur=='V'):
 				t[i] = 0,V,0
-		return t
-	
-	def filtreCouleurBleu(self, Image_open):
-		if(Image_open.donneMode() == "couleur"):
-			t = Image_open.tabPix
-			R,V,B = 0,0,0
-			print(t[0])
-			for i in range(len(t)):
-				R,V,B = t[i]
+			else:
 				t[i] = 0,0,B
 		return t
+	
+#	def filtreCouleurBleu(self, Image_open):
+#		if(Image_open.donneMode() == "couleur"):
+#			t = Image_open.tabPix
+#			R,V,B = 0,0,0
+#			print(t[0])
+#			for i in range(len(t)):
+#				R,V,B = t[i]
+#				t[i] = 0,0,B
+#		return t
 		
 	def rotation(self,Image_open,sens):
 		t = list(Image_open.getdata())
