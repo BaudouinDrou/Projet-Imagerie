@@ -160,23 +160,23 @@ bouton1.width = 1
 bouton1.height = 1
 imgBouton = ImageTk.PhotoImage(file = "images/annuler.png")
 bouton1.configure(image = imgBouton)
-bouton1.grid(row = 0, column = 1)
+bouton1.grid(row = 0, column = 2)
 bouton2 = Button(fen, background = "#333",command=choisirImage)
 bouton2.width = 1
 bouton2.height = 1
-bouton2.grid(row = 0, column = 2)
+bouton2.grid(row = 0, column = 3)
 imgBouton2 = ImageTk.PhotoImage(file = "images/ouvrir_fichier.jpg")
 bouton2.configure(image = imgBouton2)
 bouton3 = Button(fen, background = "#333",command=retourArriereCanvas)
 bouton3.width = 1
 bouton3.height = 1
-bouton3.grid(row = 0, column = 3)
+bouton3.grid(row = 0, column = 4)
 imgBouton3 = ImageTk.PhotoImage(file = "images/precedent.png")
 bouton3.configure(image = imgBouton3)
 bouton4 = Button(fen, background = "#333",command=retourAvantCanvas)
 bouton4.width = 1
 bouton4.height = 1
-bouton4.grid(row = 0, column = 4)
+bouton4.grid(row = 0, column = 5)
 imgBouton4 = ImageTk.PhotoImage(file = "images/suivant.png")
 bouton4.configure(image = imgBouton4)
 fen.title("Traitement photo")
