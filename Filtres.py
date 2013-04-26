@@ -71,6 +71,7 @@ class Image_open:
 			return self.tabIm[self.indice]
 		else:
 			nonRetourAvant()
+			return None
 	
 	def changerImage(self,nom):
 		R,V,B = 0,0,0
@@ -175,15 +176,12 @@ class Filtre:
 	def moyen(self,Image_open):
 		t = list(Image_open.image.getdata())
 		mask = [1,1,1,1,1,1,1,1,1]
-		size = Image_open.image.size
+		size = Image_open.donneImage().size
 		return applyMask(mask,t,"couleur", size)
 
 
-#def gaussien(im):
-
-
 	def contour(self,Image_open):
-		t = list(Image_open.image.getdata())
+		t = list(Image_open.donneImage().getdata())
 		mask = [0,0,0,-1,1,0,0,0,0]
 		return applyMask(mask,t,'couleur',(Image_open.largeur,Image_open.hauteur))
 
@@ -222,7 +220,6 @@ class Filtre:
 		data = [0]*Image_open.largeur*Image_open.hauteur
 		for x in range(Image_open.largeur):
 			for y in range(Image_open.hauteur):
-				#data[x*ysize - y] = t[x*1 + y*xsize]
 				data[ x*Image_open.hauteur + y] = t[y + (Image_open.hauteur - x - 1)*Image_open.largeur]
 		return data
 	

@@ -44,42 +44,64 @@ def moyen2():
 
 def contour2():
 	filtre = Filtre()
+	imTmp = image.donneImage().copy()
 	t = filtre.contour(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
 def inversion2():
 	filtre = FiltreLut()
+	imTmp = image.donneImage().copy()
 	t = filtre.inversionC(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 
 def filtreCouleurVert():
 	filtre = Filtre()
+	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleurVert(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
+	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleurRouge(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def filtreCouleurBleu():
 	filtre = Filtre()
+	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleurBleu(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def dessinCanvas():
 	filtre = Filtre()
+	imTmp = image.donneImage().copy()
 	t = filtre.dessin(image)
-	image.donneImage().putdata(t)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 	
+def retourArriereCanvas():
+	imTmp = image.retourArriere()
+	if(imTmp != None):
+			actualiserCanvas(image.donneImage(),xsize,ysize)
+
+def retourAvantCanvas():
+	imTmp = image.retourAvant()
+	if(imTmp != None):
+			actualiserCanvas(image.donneImage(),xsize,ysize)
+			
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
@@ -93,6 +115,7 @@ def choisirImage():
 	if(flag == True):
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
+		image.donneImage().resize((xsize-100,ysize - 100))
 		actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
@@ -135,15 +158,27 @@ menuTop.add_cascade(label="?",menu=menuAide)
 bouton1 = Button(fen,background = "#333",command=reinitialiserImageCanvas)
 bouton1.width = 1
 bouton1.height = 1
-imgBouton = ImageTk.PhotoImage(file = "images/precedent.png")
+imgBouton = ImageTk.PhotoImage(file = "images/annuler.png")
 bouton1.configure(image = imgBouton)
 bouton1.grid(row = 0, column = 1)
 bouton2 = Button(fen, background = "#333",command=choisirImage)
 bouton2.width = 1
 bouton2.height = 1
 bouton2.grid(row = 0, column = 2)
-imgBouton2 = ImageTk.PhotoImage(file = "images/ouvrir_fichier.png")
+imgBouton2 = ImageTk.PhotoImage(file = "images/ouvrir_fichier.jpg")
 bouton2.configure(image = imgBouton2)
+bouton3 = Button(fen, background = "#333",command=retourArriereCanvas)
+bouton3.width = 1
+bouton3.height = 1
+bouton3.grid(row = 0, column = 3)
+imgBouton3 = ImageTk.PhotoImage(file = "images/precedent.png")
+bouton3.configure(image = imgBouton3)
+bouton4 = Button(fen, background = "#333",command=retourAvantCanvas)
+bouton4.width = 1
+bouton4.height = 1
+bouton4.grid(row = 0, column = 4)
+imgBouton4 = ImageTk.PhotoImage(file = "images/suivant.png")
+bouton4.configure(image = imgBouton4)
 fen.title("Traitement photo")
 
 fen.config(menu=menuTop)
