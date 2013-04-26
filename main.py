@@ -77,7 +77,7 @@ def inversion2():
 def filtreCouleurVert():
 	filtre = Filtre()
 	imTmp = image.donneImage().copy()
-	t = filtre.filtreCouleurVert(image)
+	t = filtre.filtreCouleur(image,'V')
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
@@ -85,7 +85,7 @@ def filtreCouleurVert():
 def filtreCouleurRouge():
 	filtre = Filtre()
 	imTmp = image.donneImage().copy()
-	t = filtre.filtreCouleurRouge(image)
+	t = filtre.filtreCouleur(image,'R')
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
@@ -93,7 +93,7 @@ def filtreCouleurRouge():
 def filtreCouleurBleu():
 	filtre = Filtre()
 	imTmp = image.donneImage().copy()
-	t = filtre.filtreCouleurBleu(image)
+	t = filtre.filtreCouleur(image,'B')
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
