@@ -277,14 +277,15 @@ class FiltreLut:
 	def inversionC(self,Image_open):
 		t = Image_open.tabPix
 		taille = (Image_open.largeur,Image_open.hauteur)
+		lut = [1]*256
 		for i in range(256):
 			lut[i] = 255 - i
 		if (Image_open.donneMode()=='NB'):
-			for i in range(len(data)):
+			for i in range(len(t)):
 				t[i] = lut[t[i]]	#Application de la LUT
-		else
-			lut = evolveLUT(lut)
-			for i in range(len(data)):
+		else:
+			lut = self.evolveLUT(lut)
+			for i in range(len(t)):
 				(R, V, B) = t[i]
 				t[i] = (lut[0][R],lut[1][V],lut[2][B])	#Application de la LUT
 		return t
@@ -330,7 +331,7 @@ class FiltreLut:
 		return t
 			
 
-	def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension
+	def evolveLUT(self,LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension
 		LUT2D = [0] * 3
 		for j in range(3):
 			LUT2D[j] = [0]*256
