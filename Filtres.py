@@ -170,7 +170,7 @@ class Filtre:
 		res = [(0,0,0)]*(Image_open.longeur)*(Image_open.largeur)
 		for i in range(Image_open.hauteur):
 			for j  in range(Image_open.largeur):
-				tmp = Image_open.donneVoisins(Image_open,j,i,8)
+				tmp = Image_open.donneVoisins(j,i,8)
 				cmp = 0
 				(R,V,B)=(0,0,0)
 				moyenR = 0

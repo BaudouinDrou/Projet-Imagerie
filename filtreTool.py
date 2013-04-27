@@ -3,10 +3,48 @@
 
 from __future__ import print_function, division
 
+from Tkinter import Tk, Canvas
 import Image
 import PSDraw
 from random import randint
 from math import sqrt
+
+
+class BarreChargement:
+
+	def __init__(self,hauteurImage,largeurImage):
+		self.hauteurImage = hauteurImage
+		self.largeurImage = largeurImage
+		self.largeurApplication = largeurImage
+		self.hauteurApplication = hauteurImage
+		self.ratio = (self.hauteurApplication*self.largeurApplication)/(self.hauteurImage*self.largeurImage)
+		if(largeurImage > hauteurImage):
+			self.tailleBarre = largeurImage
+		else :
+			self.tailleBarre = hauteurImage
+		self.fenetre = Tk()
+		self.canvas = Canvas(self.fenetre, height = 10, width = self.tailleBarre, bg = "#666")
+		self.canvas.grid(row = 0, column = 0, rowspan = 10, columnspan = self.tailleBarre)
+		self.posBarrePrecedent = 0
+	
+	def changerRatio(self,largeurApplication,hauteurApplication):
+		self.hauteurApplication = hauteurApplication
+		self.largeurApplication = largeurApplication
+		self.ratio = (self.hauteurApplication*self.largeurApplication)/(self.hauteurImage*self.largeurImage)
+		
+	def remplirBarre(self,indice):
+		if(int(self.ratio)*indice != self.posBarrePrecedent):
+			self.canvas.create_rectangle(self.posBarrePrecedent,0,int(self.ratio)*indice,10,fill = "#006")
+			self.posBarrePrecedent = int(self.ratio)*indice
+			self.canvas.pack()
+			#self.fenetre.mainloop()
+			
+	def detruireBarre(self):
+		self.fenetre.destroy()
+
+
+
+
 
 def connex8(x,y,data, size):
 	xsize, ysize = size
@@ -42,11 +80,13 @@ def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant u
 	div = 0
 	N = len(mask)
 	n = int(sqrt(N))
+	barreC = BarreChargement(xsize,ysize)
 	for a in range(N):
 		div += mask[a]
 	if div == 0:
 		div = 1
 	for x in range(xsize):
+		barreC.remplirBarre(x)
 		for y in range(ysize):
 			if mode == 'NB':	#Cas NB
 				voisins = connex8(x,y,data, size)
@@ -69,6 +109,7 @@ def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant u
 						valG += mask[i*n+j]*G
 						valB += mask[i*n+j]*B
 				res[x*shift_x+y*shift_y] = (int(valR/div),int(valG/div),int(valB/div))
+	barreC.detruireBarre()
 	return res
 
 def applyLUT(LUT,data,mode, size):			#LUT unidimensionnel en NB et bidimensionnel (3*256) en couleurs
@@ -117,7 +158,3 @@ def reinitialiserImage(Image_open):
 	Image_open.donneImage().putdata(Image_open.tabPix)
 	print("tabReinit : ")
 	print(Image_open.tabPix[0])	
-
-
-
-
