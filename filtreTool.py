@@ -130,15 +130,21 @@ def applyLUT(LUT,data,mode, size):			#LUT unidimensionnel en NB et bidimensionne
 	xsize, ysize = size
 	shift_x = 1
 	shift_y = xsize
+	barreC = BarreChargement(xsize,ysize)
 	if mode == 'NB':
 		for y in range(ysize):
+			barreC.remplirBarre(y)
+			barreC.canvas.pack()
 			for x in range(xsize):
 				data[x*shift_x + y*shift_y] = LUT[data[x*shift_x + y*shift_y]]	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
 	else:
 		for y in range(ysize):
+			barreC.remplirBarre(y)
+			barreC.canvas.pack()
 			for x in range(xsize):
 				(R, V, B) = data[x*shift_x + y*shift_y]
-				data[x*shift_x + y*shift_y] = (LUT[0][R], LUT[1][V], LUT[2][B])	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
+				data[x*shift_x + y*shift_y] = (LUT[0][R], LUT[1][V], LUT[2][B])	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)
+	barreC.detruireBarre()			
 	return data
 
 def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension

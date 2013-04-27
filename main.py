@@ -76,7 +76,14 @@ def inversion2():
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
-	
+
+def median():
+	filtre = Filtre()
+	imTmp = image.donneImage().copy()
+	t = filtre.filtreMedian(image)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def filtreCouleurVert():
 	filtre = Filtre()
@@ -162,8 +169,7 @@ menuImage.add_separator()
 menuImage.add_command(label="Quitter",command=fen.destroy)
 
 menuFiltre = Menu(menuTop)
-menuFiltre.add_command(label="Median",command=None)
-menuFiltre.add_separator()
+menuFiltre.add_command(label="Median",command=median)
 menuFiltre.add_command(label="Moyen",command=moyen2)
 menuFiltre.add_command(label="Contour",command=contour2)
 menuFiltre.add_command(label="Inversion",command=inversion2)

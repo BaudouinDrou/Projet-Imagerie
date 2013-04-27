@@ -194,9 +194,9 @@ class Filtre:
 		res = [(0,0,0)]*(Image_open.largeur)*(Image_open.hauteur)
 		for i in range(Image_open.hauteur):
 			for j  in range(Image_open.largeur):
-				tmp = Image_open.donneVoisins(Image_open,j,i,8)
-				tmp.sort()
-				res[j*1 + i*Image_open.largeur] = tmp[3]
+				tmp = Image_open.donneVoisins(j,i,8)
+				#tmp.sort()
+				res[j*1 + i*Image_open.largeur] = tmp[4]
 		return res
 
 	def moyen(self,Image_open):
