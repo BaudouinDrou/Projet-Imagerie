@@ -44,10 +44,6 @@ class BarreChargement:
 	def detruireBarre(self):
 		self.fenetre.destroy()
 
-
-
-
-
 def connex8(x,y,data, size):
 	xsize, ysize = size
 	shift_x = 1
@@ -87,7 +83,9 @@ def calculGauss(x,y,sigma):
 	res *= exp(-(x**2 + y**2)/(2*sigma**2))
 	return res
 
-def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant un voisinnage de 8-connexité sur des données d'images
+#Applique un masque de N cases en prenant un voisinnage de 8-connexité sur des données d'images
+#Retourne un tableau de la taille du tabelau donné en entrée
+def applyMask(mask,data,mode, size):
 	xsize, ysize = size
 	shift_x = 1
 	shift_y = xsize
