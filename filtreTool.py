@@ -3,7 +3,7 @@
 
 from __future__ import print_function, division
 
-from Tkinter import Tk, Canvas
+from Tkinter import *
 import Image
 import PSDraw
 from random import randint
@@ -22,7 +22,9 @@ class BarreChargement:
 			self.tailleBarre = largeurImage
 		else :
 			self.tailleBarre = hauteurImage
-		self.fenetre = Tk()
+		self.fenetre = Toplevel()
+		self.fenetre.overrideredirect(1)
+		self.fenetre.wm_geometry("%dx%d+%d+%d" % (self.tailleBarre, 10,0, 90))
 		self.canvas = Canvas(self.fenetre, height = 10, width = self.tailleBarre, bg = "#666")
 		self.canvas.grid(row = 0, column = 0, rowspan = 10, columnspan = self.tailleBarre)
 		self.posBarrePrecedent = 0
@@ -34,10 +36,10 @@ class BarreChargement:
 		
 	def remplirBarre(self,indice):
 		if(int(self.ratio)*indice != self.posBarrePrecedent):
-			self.canvas.create_rectangle(self.posBarrePrecedent,0,int(self.ratio)*indice,10,fill = "#006")
+			self.canvas.create_rectangle(self.posBarrePrecedent,0,int(self.ratio)*indice,10,outline='red')
 			self.posBarrePrecedent = int(self.ratio)*indice
 			self.canvas.pack()
-			#self.fenetre.mainloop()
+			self.fenetre.update()
 			
 	def detruireBarre(self):
 		self.fenetre.destroy()
@@ -87,6 +89,7 @@ def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant u
 		div = 1
 	for x in range(xsize):
 		barreC.remplirBarre(x)
+		barreC.canvas.pack()
 		for y in range(ysize):
 			if mode == 'NB':	#Cas NB
 				voisins = connex8(x,y,data, size)
