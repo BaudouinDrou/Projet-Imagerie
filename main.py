@@ -53,7 +53,10 @@ def actualiserCanvas(image,xsize,ysize):
 
 def moyen2():
 	filtre = Filtre()
-	filtre.moyen(image)
+	imTmp = image.donneImage().copy()
+	t = filtre.moyen(image)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 
@@ -142,7 +145,7 @@ workbench.grid(row = 1, column = 1, rowspan = 20, columnspan = 200)
 
 statut = Label(text="Commencez le traitement !")
 statut.grid(column=1,row=22)
-
+#actualiserCanvas(image.donneImage(),xsize,ysize)
 menuTop = Menu(fen)
 
 menuImage = Menu(menuTop)
@@ -194,7 +197,6 @@ bouton4.grid(row = 0, column = 5)
 imgBouton4 = ImageTk.PhotoImage(file = "images/suivant.png")
 bouton4.configure(image = imgBouton4)
 fen.title("Traitement photo")
-
 fen.config(menu=menuTop)
 
 fen.mainloop()
