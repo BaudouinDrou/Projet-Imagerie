@@ -196,9 +196,9 @@ class Filtre:
 		res = [(0,0,0)]*(Image_open.largeur)*(Image_open.hauteur)
 		for i in range(Image_open.hauteur):
 			for j  in range(Image_open.largeur):
-				tmp = Image_open.donneVoisins(Image_open,j,i,8)
-				tmp.sort()
-				res[j*1 + i*Image_open.largeur] = tmp[3]
+				tmp = Image_open.donneVoisins(j,i,8)
+				#tmp.sort()
+				res[j*1 + i*Image_open.largeur] = tmp[4]
 		return res
 
 	def moyen(self,Image_open):
@@ -222,8 +222,14 @@ class Filtre:
 	def filtreCouleur(self, Image_open,couleur): #couleur est soit R, soit V, soit B
 		t = Image_open.tabPix
 		R,V,B = 0,0,0
+		tmp = -1
 		boolMode = (Image_open.donneMode() == "couleur")
+		barreC = BarreChargement(Image_open.largeur,Image_open.hauteur)
 		for i in range(len(t)):
+			if(int(i/Image_open.hauteur) != tmp):
+				barreC.remplirBarre(int(i/Image_open.hauteur))
+				barreC.canvas.pack()
+				tmp = int(i/Image_open.hauteur)
 			if(boolMode):
 				R,V,B = t[i]
 			else:
@@ -234,6 +240,7 @@ class Filtre:
 				t[i] = 0,V,0
 			else:
 				t[i] = 0,0,B
+		barreC.detruireBarre()
 		return t
 			
 	def rotation(self,Image_open,sens):
@@ -331,16 +338,4 @@ class FiltreLut:
 			LUT2D[0][i] = LUT[i]
 			LUT2D[1][i] = LUT[i]
 			LUT2D[2][i] = LUT[i]
-		return LUT2D
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return LUT2D	

@@ -43,31 +43,6 @@ class BarreChargement:
 			
 	def detruireBarre(self):
 		self.fenetre.destroy()
-
-def connex8(x,y,data, size):
-	xsize, ysize = size
-	shift_x = 1
-	shift_y = xsize
-	rep = [(0,0,0)]*9
-	#le tableau est de la forme rep = [V(x0,y0), V(x,y0), V(x+1,y0), ...., V(x+1,y+1)] ou V(x,y) est la valeur du pixel a la pos (x,y).
-	if y == 0 : #traitement du cas particulier de la premiere ligne
-		for i in range(3):
-			rep[i] = False
-	if x == xsize-1: #traitement du cas particulier de la derniere colonne
-		for i in range(3):
-			rep[i*3+2] = False
-	if y == ysize-1: #traitement du cas particulier de la derniere ligne
-		for i in range(3):
-			rep[i+6] = False
-	if x == 0: #traitement du cas particulier de la premiere colonne
-		for i in range(3):
-			rep[i*3] = False
-	#Cas général
-	for i in range(3):
-		for j in range(3):
-			if (rep[i*3 + j] != False):
-				rep[i*3+j] = data[(j-1 + x)*shift_x + (i-1+y)*shift_y]
-	return rep
 	
 def connexN(x,y,data,size,n): #Les coordonées du point, le tableaude données, la taille du tableau, la largeur du masque
 	xsize, ysize = size
@@ -138,6 +113,7 @@ def applyMask(mask,data,mode,size):
 				res[x*shift_x+y*shift_y] = valR//div,valG//div,valB//div
 	barreC.detruireBarre()
 	return res
+
 
 def copyTabPix(tabPix):
 	try :
