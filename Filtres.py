@@ -220,8 +220,14 @@ class Filtre:
 	def filtreCouleur(self, Image_open,couleur): #couleur est soit R, soit V, soit B
 		t = Image_open.tabPix
 		R,V,B = 0,0,0
+		tmp = -1
 		boolMode = (Image_open.donneMode() == "couleur")
+		barreC = BarreChargement(Image_open.largeur,Image_open.hauteur)
 		for i in range(len(t)):
+			if(int(i/Image_open.hauteur) != tmp):
+				barreC.remplirBarre(int(i/Image_open.hauteur))
+				barreC.canvas.pack()
+				tmp = int(i/Image_open.hauteur)
 			if(boolMode):
 				R,V,B = t[i]
 			else:
@@ -232,6 +238,7 @@ class Filtre:
 				t[i] = 0,V,0
 			else:
 				t[i] = 0,0,B
+		barreC.detruireBarre()
 		return t
 			
 	def rotation(self,Image_open,sens):
