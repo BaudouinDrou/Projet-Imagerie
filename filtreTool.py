@@ -7,7 +7,7 @@ from Tkinter import *
 import Image
 import PSDraw
 from random import randint
-from math import sqrt
+from math import *
 
 
 class BarreChargement:
@@ -73,6 +73,19 @@ def connex8(x,y,data, size):
 				rep[i*3+j] = data[(j-1 + x)*shift_x + (i-1+y)*shift_y]
 	return rep
 
+def creerMasqueGaussien(sigma):
+	tailleTab = int(sigma*2 + 1)
+	milieu = tailleTab//2
+	rep = []
+	for i in range(tailleTab):
+		for j in range(tailleTab):
+			rep.append(calculGauss(i-milieu, j-milieu,sigma))
+	return rep
+	
+def calculGauss(x,y,sigma):
+	res = 1/(2*pi*sigma**2)
+	res *= exp(-(x**2 + y**2)/(2*sigma**2))
+	return res
 
 def applyMask(mask,data,mode, size): #Applique un masque de 9 cases en prenant un voisinnage de 8-connexité sur des données d'images
 	xsize, ysize = size
@@ -160,4 +173,10 @@ def reinitialiserImage(Image_open):
 	Image_open.tabPix = copyTabPix(Image_open.donneImage(0).getdata())
 	Image_open.donneImage().putdata(Image_open.tabPix)
 	print("tabReinit : ")
+<<<<<<< HEAD
+	print(Image_open.tabPix[0])
+
+
+=======
 	print(Image_open.tabPix[0])	
+>>>>>>> 37ba30e74ba27efc6a2f2dee6598a39f9ed1e802

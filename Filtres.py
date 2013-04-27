@@ -207,7 +207,7 @@ class Filtre:
 
 	def gaussien(self,sigma):
 		t = list(Image_open.donneImage().getdata())
-		mask = [1,2,1,2,5,2,1,2,1]
+		mask = creerMasqueGaussien(sigma)
 		size = (Image_open.largeur,Image_open.hauteur)
 		return applyMask(mask,t,Image_open.donneMode(), size)
 
