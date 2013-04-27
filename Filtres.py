@@ -126,7 +126,7 @@ class Image_open:
 			self.tabIm.append(0)
 			print("L'image n'a pas pu etre ouverte")
 			
-	def donneVoisins(self, x,y,mode):
+	def donneVoisins(self,x,y,mode):
 		rep = [(0,0,0)]*9
 		#le tableau est de la forme rep = [V(x-1,y-1), V(x,y-1), V(x+1,y-1), ...., V(x+1,y+1)] ou V(x,y) est la valeur du pixel a la pos (x,y).
 		if y == 0 : #traitement du cas particulier de la premiere ligne
@@ -157,6 +157,8 @@ class Filtre:
 
 	"""Classe permettant de creer differents filtres et de les appliquer, ces
 	filtres peuvent etre caracterises par une matrice de convolution
+	Chaque  filtre prend en parametre une  Image_open
+	Chaque filtre renvoie un tableau de pixel de la taille de l'image
 	"""
 
 	def __init__(self):
@@ -205,7 +207,7 @@ class Filtre:
 		size = (Image_open.largeur,Image_open.hauteur)
 		return applyMask(mask,t,Image_open.donneMode(), size)
 
-	def gaussien(self,sigma):
+	def gaussien(self,Image_open,sigma=2):
 		t = list(Image_open.donneImage().getdata())
 		mask = creerMasqueGaussien(sigma)
 		size = (Image_open.largeur,Image_open.hauteur)
@@ -243,22 +245,102 @@ class Filtre:
 		return data
 	
 	def dessin(self,Image_open):
-		Image_open.tabPix = Filtre.contour(self,Image_open)
+		t = self.contour(Image_open)
 		filtreLut = FiltreLut()
+		im = Image_open.donneImage()
+		im.putdata(t)
 		return(filtreLut.inversionC(Image_open))
 
 class FiltreLut:
 
-	def __init__(self):
-		self.LUT = [0]*256
-		self.LUTR = [0]*256
-		self.LUTV = [0]*256
-		self.LUTB = [0]*256
+	"""Classe permettant de creer differents filtres et de les appliquer
+	Ces	filtres sont caractérisés par une LUT
+	Chaque  filtre prend en parametre une  Image_open
+	Chaque filtre renvoie un tableau de pixel de la taille de l'image
+	- LUT NB
+	- LUT couleur
+	- cryptage ou non cryptage
+	"""
 
+	def __init__(self):
+		self.LUT = [1]*256
+		self.LUTC = [1]*256
+		self.cryptage = 0
 
 	def inversionC(self,Image_open):
 		t = Image_open.tabPix
+		taille = (Image_open.largeur,Image_open.hauteur)
 		for i in range(256):
-			self.LUT[i] = 255 - i
-		LUT2D = evolveLUT(self.LUT)
-		return applyLUT(LUT2D,t,'couleur',(Image_open.largeur,Image_open.hauteur))
+			lut[i] = 255 - i
+		if (Image_open.donneMode()=='NB'):
+			for i in range(len(data)):
+				t[i] = lut[t[i]]	#Application de la LUT
+		else
+			lut = evolveLUT(lut)
+			for i in range(len(data)):
+				(R, V, B) = t[i]
+				t[i] = (lut[0][R],lut[1][V],lut[2][B])	#Application de la LUT
+		return t
+			
+	def cryptageCouleur(self,Image_open):
+		for i in range(256):
+			self.LUT[i] = (a*LUT[0] + 5)%256
+			self.LUTC[0][i] = (a*LUTC[0][0] + 5)%256
+			self.LUTC[1][i] = (b*LUTC[1][0] + 5)%256
+			self.LUTC[2][i] = (c*LUTC[1][0] + 5)%256
+		self.cryptage += 1
+		return youhouLut(Image_open)
+	
+	def decryptageCouleur(self,Image_open):
+		if (self.cryptage<=0):
+			erreurDecryptage()
+		else:
+			t = [0]*256
+			t0 = [0]*256
+			t1 = [0]*256
+			t2 = [0]*256			
+			for i in range(256):
+				t[self.LUT[i]] = i
+				t0[self.LUTC[0][i]] = i
+				t1[self.LUTC[1][i]] = i
+				t2[self.LUTC[2][i]] = i
+			self.LUT = t
+			self.LUTC[0] = t0
+			self.LUTC[1] = t1
+			self.LUTC[2] = t2
+			self.cryptage -= 1
+			return youhouLut(Image_open)
+			
+	def youhouLut(self,Image_open):
+		t = Image_open.tabPix
+		if Image_open.donneMode() == 'NB':
+			for i in range(len(t)):
+				t[i] = self.LUT[t[i]]	#Application de la LUT
+		else:
+			for i in range(len(t)):
+					(R, V, B) = t[i]
+					t[i] = (self.LUTC[0][R], self.LUTC[1][V], self.LUTC[2][B])	#Application de la LUT
+		return t
+			
+
+	def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension
+		LUT2D = [0] * 3
+		for j in range(3):
+			LUT2D[j] = [0]*256
+		for i in range(256):
+			LUT2D[0][i] = LUT[i]
+			LUT2D[1][i] = LUT[i]
+			LUT2D[2][i] = LUT[i]
+		return LUT2D
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

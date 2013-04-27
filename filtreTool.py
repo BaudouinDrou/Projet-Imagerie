@@ -68,6 +68,19 @@ def connex8(x,y,data, size):
 			if (rep[i*3 + j] != False):
 				rep[i*3+j] = data[(j-1 + x)*shift_x + (i-1+y)*shift_y]
 	return rep
+	
+def connexN(x,y,data,size,n): #Les coordonées du point, le tableaude données, la taille du tableau, la largeur du masque
+	xsize, ysize = size
+	shift_x = 1
+	shift_y = xsize
+	rep = []
+	for i in range(n):
+		for j in range(n):
+			try:
+				rep.append(data[(j-1 + x)*shift_x + (i-1+y)*shift_y])
+			except:
+				rep.append(False)
+	return rep
 
 def creerMasqueGaussien(sigma):
 	tailleTab = int(sigma*2 + 1)
@@ -75,7 +88,7 @@ def creerMasqueGaussien(sigma):
 	rep = []
 	for i in range(tailleTab):
 		for j in range(tailleTab):
-			rep.append(calculGauss(i-milieu, j-milieu,sigma))
+			rep.append(int(calculGauss(i-milieu, j-milieu,sigma)*100))
 	return rep
 	
 def calculGauss(x,y,sigma):
@@ -85,7 +98,7 @@ def calculGauss(x,y,sigma):
 
 #Applique un masque de N cases en prenant un voisinnage de 8-connexité sur des données d'images
 #Retourne un tableau de la taille du tabelau donné en entrée
-def applyMask(mask,data,mode, size):
+def applyMask(mask,data,mode,size):
 	xsize, ysize = size
 	shift_x = 1
 	shift_y = xsize
@@ -103,16 +116,16 @@ def applyMask(mask,data,mode, size):
 		barreC.canvas.pack()
 		for y in range(ysize):
 			if mode == 'NB':	#Cas NB
-				voisins = connex8(x,y,data, size)
+				voisins = connexN(x,y,data,size,n)
 				for i in range(n):
 					for j in range(n):
 						val = 0
 						if voisins[i*n+j] != False:
 							val = voisins[i*n+j]
 						val += mask[i*n+j]*voisins[i*n+j]
-				res[x*shift_x+y*shift_y] = val/div
+				res[x*shift_x+y*shift_y] = (val)/div
 			else:				#Cas couleur
-				voisins = connex8(x,y,data, size)
+				voisins = connexN(x,y,data,size,n)
 				valR,valG,valB = 0,0,0
 				for i in range(n):
 					for j in range(n):
@@ -122,34 +135,9 @@ def applyMask(mask,data,mode, size):
 						valR += mask[i*n+j]*R
 						valG += mask[i*n+j]*G
 						valB += mask[i*n+j]*B
-				res[x*shift_x+y*shift_y] = (int(valR/div),int(valG/div),int(valB/div))
+				res[x*shift_x+y*shift_y] = valR//div,valG//div,valB//div
 	barreC.detruireBarre()
 	return res
-
-def applyLUT(LUT,data,mode, size):			#LUT unidimensionnel en NB et bidimensionnel (3*256) en couleurs
-	xsize, ysize = size
-	shift_x = 1
-	shift_y = xsize
-	if mode == 'NB':
-		for y in range(ysize):
-			for x in range(xsize):
-				data[x*shift_x + y*shift_y] = LUT[data[x*shift_x + y*shift_y]]	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
-	else:
-		for y in range(ysize):
-			for x in range(xsize):
-				(R, V, B) = data[x*shift_x + y*shift_y]
-				data[x*shift_x + y*shift_y] = (LUT[0][R], LUT[1][V], LUT[2][B])	#Application de la LUT au pixel de coordonées (x,y) : pix(x,y) = LUT[pix(x,y)]
-	return data
-
-def evolveLUT(LUT):		#Prend en parametre une LUT unidimensionnelle et la renvoie en 2 dimension
-	LUT2D = [0] * 3
-	for j in range(3):
-		LUT2D[j] = [0]*256
-	for i in range(256):
-		LUT2D[0][i] = LUT[i]
-		LUT2D[1][i] = LUT[i]
-		LUT2D[2][i] = LUT[i]
-	return LUT2D
 
 def copyTabPix(tabPix):
 	try :
