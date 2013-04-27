@@ -269,10 +269,20 @@ class FiltreLut:
 	- cryptage ou non cryptage
 	"""
 
-	def __init__(self):
-		self.LUT = [1]*256
-		self.LUTC = [1]*256
-		self.cryptage = 0
+	def __init__(self,a=11,b=13,c=15):
+		self.LUTC = [1]*3
+		self.LUTD = [1]*3
+		for i in range(3):
+			self.LUTC[i] = [1]*256
+			self.LUTD[i] = [1]*256
+		for i in range(256):
+			self.LUTC[0][i] = (a*i + 7)%256
+			self.LUTC[1][i] = (b*i + 1789)%256
+			self.LUTC[2][i] = (c*i)%256
+			self.LUTD[0][(a*i+ 7)%256] = i
+			self.LUTD[1][(b*i + 1789)%256] = i
+			self.LUTD[2][(c*i)%256] = i
+			
 
 	def inversionC(self,Image_open):
 		t = Image_open.tabPix
@@ -291,43 +301,26 @@ class FiltreLut:
 		return t
 			
 	def cryptageCouleur(self,Image_open):
-		for i in range(256):
-			self.LUT[i] = (a*LUT[0] + 5)%256
-			self.LUTC[0][i] = (a*LUTC[0][0] + 5)%256
-			self.LUTC[1][i] = (b*LUTC[1][0] + 5)%256
-			self.LUTC[2][i] = (c*LUTC[1][0] + 5)%256
-		self.cryptage += 1
-		return youhouLut(Image_open)
+		return self.youhouLut(Image_open)
 	
 	def decryptageCouleur(self,Image_open):
-		if (self.cryptage<=0):
-			erreurDecryptage()
-		else:
-			t = [0]*256
-			t0 = [0]*256
-			t1 = [0]*256
-			t2 = [0]*256			
-			for i in range(256):
-				t[self.LUT[i]] = i
-				t0[self.LUTC[0][i]] = i
-				t1[self.LUTC[1][i]] = i
-				t2[self.LUTC[2][i]] = i
-			self.LUT = t
-			self.LUTC[0] = t0
-			self.LUTC[1] = t1
-			self.LUTC[2] = t2
-			self.cryptage -= 1
-			return youhouLut(Image_open)
+		return self.youhouLut(Image_open,False)
 			
-	def youhouLut(self,Image_open):
+	def youhouLut(self,Image_open,zup=True):
 		t = Image_open.tabPix
 		if Image_open.donneMode() == 'NB':
 			for i in range(len(t)):
-				t[i] = self.LUT[t[i]]	#Application de la LUT
+				if zup :
+					t[i] = self.LUTC[0][t[i]]	#Application de la LUT de cryptage
+				else:
+					t[i] = self.LUTD[0][t[i]]	#Application de la LUT de décryptage
 		else:
 			for i in range(len(t)):
 					(R, V, B) = t[i]
-					t[i] = (self.LUTC[0][R], self.LUTC[1][V], self.LUTC[2][B])	#Application de la LUT
+					if zup :
+						t[i] = (self.LUTC[0][R], self.LUTC[1][V], self.LUTC[2][B])	#Application de la LUT de cryptage
+					else:
+						t[i] = (self.LUTD[0][R], self.LUTD[1][V], self.LUTD[2][B])	#Application de la LUT de décryptage
 		return t
 			
 

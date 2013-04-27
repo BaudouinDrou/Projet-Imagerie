@@ -76,6 +76,22 @@ def inversion2():
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
+	
+def cryptageC():
+	filtre = FiltreLut()
+	imTmp = image.donneImage().copy()
+	t = filtre.cryptageCouleur(image)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
+	
+def decryptageC():
+	filtre = FiltreLut()
+	imTmp = image.donneImage().copy()
+	t = filtre.decryptageCouleur(image)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
 
 def median():
 	filtre = Filtre()
@@ -173,11 +189,13 @@ menuFiltre.add_command(label="Median",command=median)
 menuFiltre.add_command(label="Moyen",command=moyen2)
 menuFiltre.add_command(label="Contour",command=contour2)
 menuFiltre.add_command(label="Inversion",command=inversion2)
+menuFiltre.add_command(label="Crypatage couleur",command=cryptageC)
+menuFiltre.add_command(label="Decryptage couleur",command=decryptageC)
 menuFiltre.add_command(label="Rouge",command=filtreCouleurRouge)
 menuFiltre.add_command(label="Vert",command=filtreCouleurVert)
 menuFiltre.add_command(label="Bleu",command=filtreCouleurBleu)
 menuFiltre.add_command(label="Dessin",command=dessinCanvas)
-menuFiltre.add_command(label="gaussien",command=filtreGaussien)
+menuFiltre.add_command(label="Gaussien",command=filtreGaussien)
 
 menuAide = Menu(menuTop)
 menuAide.add_command(label="Les outils",command=afficherOutils)
