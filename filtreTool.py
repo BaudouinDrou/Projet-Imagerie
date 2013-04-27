@@ -114,7 +114,6 @@ def applyMask(mask,data,mode,size):
 	barreC.detruireBarre()
 	return res
 
-
 def copyTabPix(tabPix):
 	try :
 		R,V,B = tabPix[0]
