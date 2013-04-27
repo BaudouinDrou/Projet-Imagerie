@@ -102,6 +102,14 @@ def filtreCouleurBleu():
 	image.ajouterImage(imTmp)
 	actualiserCanvas(image.donneImage(),xsize,ysize)
 
+def filtreGaussien():
+	filtre = Filtre()
+	imTmp = image.donneImage().copy()
+	t = filtre.gaussien(image)
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
+	actualiserCanvas(image.donneImage(),xsize,ysize)
+
 def dessinCanvas():
 	filtre = Filtre()
 	imTmp = image.donneImage().copy()
@@ -163,7 +171,7 @@ menuFiltre.add_command(label="Rouge",command=filtreCouleurRouge)
 menuFiltre.add_command(label="Vert",command=filtreCouleurVert)
 menuFiltre.add_command(label="Bleu",command=filtreCouleurBleu)
 menuFiltre.add_command(label="Dessin",command=dessinCanvas)
-menuFiltre.add_command(label="Reinit",command=reinitialiserImageCanvas)
+menuFiltre.add_command(label="gaussien",command=filtreGaussien)
 
 menuAide = Menu(menuTop)
 menuAide.add_command(label="Les outils",command=afficherOutils)
