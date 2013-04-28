@@ -71,6 +71,16 @@ def calculGauss(x,y,sigma):
 	res *= exp(-(x**2 + y**2)/(2*sigma**2))
 	return res
 
+def convertYUV(pix,mode):
+	if mode == 'NB':
+		return pix
+	else:
+		r,v,b = pix
+		y = int(r*0.299 + v*0.587 + b*0.144)
+		u = int(-r*0.14713 - v*0.28886 + b*0.436)
+		v = int(r*0.615 - v*0.51498 - b*0.10001)
+	return y,u,v
+
 #Applique un masque de N cases en prenant un voisinnage de 8-connexité sur des données d'images
 #Retourne un tableau de la taille du tabelau donné en entrée
 def applyMask(mask,data,mode,size):

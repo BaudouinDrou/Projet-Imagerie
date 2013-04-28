@@ -125,7 +125,20 @@ class Image_open:
 			self.indice = -1
 			self.tabIm.append(0)
 			print("L'image n'a pas pu etre ouverte")
-			
+	
+	def donneTabYUV(self):
+		t = []
+		for i in range(len(self.tabPix)):
+			t.append(convertYUV(self.tabPix[i],self.donneMode()))
+		return t
+	
+	def donneTabLuminance(self):
+		t = []
+		for i in range(len(self.tabPix)):
+			y,u,v = convertYUV(self.tabPix[i],self.donneMode())
+			t.append(y)
+		return t
+		
 	def donneVoisins(self,x,y,mode):
 		rep = [(0,0,0)]*9
 		#le tableau est de la forme rep = [V(x-1,y-1), V(x,y-1), V(x+1,y-1), ...., V(x+1,y+1)] ou V(x,y) est la valeur du pixel a la pos (x,y).
