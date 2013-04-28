@@ -35,12 +35,7 @@ def redimensionner(image_open):
 		xsize,ysize = image_open.largeur, image_open.hauteur
 		
 
-def actualiserCanvas(image,xsize,ysize):
-	photo = ImageTk.PhotoImage(image)
-	workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
-	workbench.pack(photo)
-	
-def actualiserCanvas2(t,xsize,ysize):
+def actualiserCanvas(t,xsize,ysize):
 	imTmp = image.donneImage().copy()
 	imTmp.putdata(t)
 	image.ajouterImage(imTmp)
@@ -51,73 +46,73 @@ def actualiserCanvas2(t,xsize,ysize):
 def moyen2():
 	filtre = Filtre()
 	t = filtre.moyen(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 
 def contour2():
 	filtre = Filtre()
 	t = filtre.contour(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 
 def inversion2():
 	filtre = FiltreLut()
 	t = filtre.inversionC(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 	
 def cryptageC():
 	filtre = FiltreLut()
 	t = filtre.cryptageCouleur(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 	
 def decryptageC():
 	filtre = FiltreLut()
 	t = filtre.decryptageCouleur(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 def median():
 	filtre = Filtre()
 	t = filtre.filtreMedian(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 def filtreCouleurVert():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'V')
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'R')
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 def filtreCouleurBleu():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'B')
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 def filtreGaussien():
 	filtre = Filtre()
 	t = filtre.gaussien(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 
 def dessinCanvas():
 	filtre = Filtre()
 	t = filtre.dessin(image)
-	actualiserCanvas2(t,xsize,ysize)
+	actualiserCanvas(t,xsize,ysize)
 	
 def retourArriereCanvas():
 	imTmp = image.retourArriere()
 	if(imTmp != None):
-		actualiserCanvas2(image.tabPix,xsize,ysize)
+		actualiserCanvas(image.tabPix,xsize,ysize)
 
 def retourAvantCanvas():
 	imTmp = image.retourAvant()
 	if(imTmp != None):
-		actualiserCanvas2(image.tabPix,xsize,ysize)
+		actualiserCanvas(image.tabPix,xsize,ysize)
 			
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
-	actualiserCanvas2(image.tabPix,xsize,ysize)
+	actualiserCanvas(image.tabPix,xsize,ysize)
 	
 def choisirImage():
 	try :
@@ -129,7 +124,7 @@ def choisirImage():
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
 		redimensionner(image)
-		actualiserCanvas(image.donneImage(),xsize,ysize)
+		actualiserCanvas(image.tabPix,xsize,ysize)
 
 
 # -------------- MAIN ----------------------
