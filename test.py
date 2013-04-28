@@ -36,7 +36,6 @@ def testCalculGauss(sigma):
 	print(1/(2*pi*sigma**2))
 	print(calculGauss(1,2,sigma))
 	
-
 def testMasqueGaussien(sigma):
 	t = creerMasqueGaussien(sigma)
 	rep = "["
@@ -45,4 +44,7 @@ def testMasqueGaussien(sigma):
 	rep += "]"
 	print(rep)
 
-testVoisins()
+def testConvertYUV(r=100,v=100,b=100):
+	print(convertYUV((r,v,b),"NB"))
+	print(convertYUV((r,v,b),"couleur"))
+	
