@@ -43,6 +43,30 @@ class BarreChargement:
 			
 	def detruireBarre(self):
 		self.fenetre.destroy()
+
+class Histogramme:
+	
+	def __init__(self):
+		self.hauteur = 250
+		self.val = [0]*256
+	
+	def reinit(self,Image_open):
+		t = Image_open.donneTabLuminance()
+		for i in range(len(t)):
+			self.val[t[i]] += 1
+		max = 0
+		for i in range(len(self.val)):
+			if (self.val[i]>max):
+				max = self.val[i]
+		for i in range(len(self.val)):
+			self.val[i] = (self.val[i]*self.hauteur)//max
+			
+	def afficher(self,canvas):
+		canvas.create_rectangle(0,0,len(self.val),256,fill='#666')
+		for i in range(len(self.val)):
+			canvas.create_rectangle(i,256-self.val[i],i+1,256,outline='#55CCFF')
+		canvas.grid(row = 2, column = 0)
+	
 	
 def connexN(x,y,data,size,n): #Les coordonées du point, le tableaude données, la taille du tableau, la largeur du masque
 	xsize, ysize = size
@@ -76,10 +100,18 @@ def convertYUV(pix,mode):
 		return pix
 	else:
 		r,v,b = pix
-		y = int(r*0.299 + v*0.587 + b*0.144)
+		y = int(r*0.299 + v*0.587 + b*0.114)
 		u = int(-r*0.14713 - v*0.28886 + b*0.436)
 		v = int(r*0.615 - v*0.51498 - b*0.10001)
 	return y,u,v
+
+def convertY(pix,mode):
+	if mode == 'NB':
+		return pix
+	else:
+		r,v,b = pix
+		y = int(r*0.299 + v*0.587 + b*0.114)
+	return y
 
 #Applique un masque de N cases en prenant un voisinnage de 8-connexité sur des données d'images
 #Retourne un tableau de la taille du tabelau donné en entrée

@@ -129,15 +129,18 @@ class Image_open:
 	
 	def donneTabYUV(self):
 		t = []
+		if (self.donneMode()=="NB"):
+			return tabPix
 		for i in range(len(self.tabPix)):
 			t.append(convertYUV(self.tabPix[i],self.donneMode()))
 		return t
 	
 	def donneTabLuminance(self):
 		t = []
+		if (self.donneMode()=="NB"):
+			return tabPix
 		for i in range(len(self.tabPix)):
-			y,u,v = convertYUV(self.tabPix[i],self.donneMode())
-			t.append(y)
+			t.append(convertY(self.tabPix[i],self.donneMode()))
 		return t
 		
 	def donneVoisins(self,x,y,mode):
