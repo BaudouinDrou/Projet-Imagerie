@@ -103,12 +103,17 @@ def dessinCanvas():
 def retourArriereCanvas():
 	imTmp = image.retourArriere()
 	if(imTmp != None):
-		actualiserCanvas(image.tabPix,xsize,ysize)
+		photo = ImageTk.PhotoImage(imTmp)
+		workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+		workbench.pack(photo)
+		
 
 def retourAvantCanvas():
 	imTmp = image.retourAvant()
 	if(imTmp != None):
-		actualiserCanvas(image.tabPix,xsize,ysize)
+		photo = ImageTk.PhotoImage(imTmp)
+		workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+		workbench.pack(photo)
 			
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)

@@ -92,6 +92,7 @@ class Image_open:
 			return self.tabIm[self.indice]
 		else:
 			nonRetourArriere()
+			return None
 	
 	def retourAvant(self):
 		if(self.indice < self.indiceMax):
