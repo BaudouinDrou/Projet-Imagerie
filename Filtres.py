@@ -81,8 +81,8 @@ class Image_open:
 	def reinit(self,image):
 		self.tabIm = []
 		self.tabIm.append(image)
-		self.indice = 0
-		self.indiceMax = 0
+		self.indice = -1
+		self.indiceMax = -1
 		
 	
 	def retourArriere(self):
@@ -92,6 +92,7 @@ class Image_open:
 			return self.tabIm[self.indice]
 		else:
 			nonRetourArriere()
+			return None
 	
 	def retourAvant(self):
 		if(self.indice < self.indiceMax):
