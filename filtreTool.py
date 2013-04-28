@@ -12,16 +12,13 @@ from math import *
 
 class BarreChargement:
 
-	def __init__(self,hauteurImage,largeurImage):
+	def __init__(self,largeurImage,hauteurImage):
 		self.hauteurImage = hauteurImage
 		self.largeurImage = largeurImage
 		self.largeurApplication = largeurImage
 		self.hauteurApplication = hauteurImage
 		self.ratio = (self.hauteurApplication*self.largeurApplication)/(self.hauteurImage*self.largeurImage)
-		if(largeurImage > hauteurImage):
-			self.tailleBarre = largeurImage
-		else :
-			self.tailleBarre = hauteurImage
+		self.tailleBarre = largeurImage
 		self.fenetre = Toplevel()
 		self.fenetre.overrideredirect(1)
 		self.fenetre.wm_geometry("%dx%d+%d+%d" % (self.tailleBarre, 10,0, 90))

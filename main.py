@@ -17,6 +17,7 @@ from fenetres import *
 import time
 fen = Tk()
 image = Image_open("images/imgUbuntu.jpg")
+background = ImageTk.PhotoImage(image.donneImage())
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
 
@@ -46,65 +47,65 @@ def actualiserCanvas(t,xsize,ysize):
 def moyen2():
 	filtre = Filtre()
 	t = filtre.moyen(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 
 def contour2():
 	filtre = Filtre()
 	t = filtre.contour(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 
 def inversion2():
 	filtre = FiltreLut()
 	t = filtre.inversionC(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 	
 def cryptageC():
 	filtre = FiltreLut()
 	t = filtre.cryptageCouleur(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 	
 def decryptageC():
 	filtre = FiltreLut()
 	t = filtre.decryptageCouleur(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 def median():
 	filtre = Filtre()
 	t = filtre.filtreMedian(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 def filtreCouleurVert():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'V')
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'R')
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 def filtreCouleurBleu():
 	filtre = Filtre()
 	t = filtre.filtreCouleur(image,'B')
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 def filtreGaussien():
 	filtre = Filtre()
 	t = filtre.gaussien(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 
 def dessinCanvas():
 	filtre = Filtre()
 	t = filtre.dessin(image)
-	actualiserCanvas(t,xsize,ysize)
+	actualiserCanvas(t,image.largeur,image.hauteur)
 	
 def retourArriereCanvas():
 	imTmp = image.retourArriere()
 	if(imTmp != None):
 		photo = ImageTk.PhotoImage(imTmp)
-		workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+		workbench.create_image((largeurEcran - image.largeur)/2,(hauteurEcran - image.hauteur)/2,anchor = NW,image=photo)
 		workbench.pack(photo)
 		
 
@@ -112,12 +113,12 @@ def retourAvantCanvas():
 	imTmp = image.retourAvant()
 	if(imTmp != None):
 		photo = ImageTk.PhotoImage(imTmp)
-		workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+		workbench.create_image((largeurEcran - image.largeur)/2,(hauteurEcran - image.hauteur)/2,anchor = NW,image=photo)
 		workbench.pack(photo)
 			
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
-	actualiserCanvas(image.tabPix,xsize,ysize)
+	actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
 	
 def choisirImage():
 	try :
@@ -129,7 +130,7 @@ def choisirImage():
 		workbench.delete(fen,"All")
 		image.changerImage(chemin)
 		redimensionner(image)
-		actualiserCanvas(image.tabPix,xsize,ysize)
+		actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
 
 
 # -------------- MAIN ----------------------
@@ -140,7 +141,6 @@ workbench.grid(row = 1, column = 1, rowspan = 20, columnspan = 200)
 
 statut = Label(text="Commencez le traitement !")
 statut.grid(column=1,row=22)
-#actualiserCanvas(image.donneImage(),xsize,ysize)
 menuTop = Menu(fen)
 
 menuImage = Menu(menuTop)
@@ -194,5 +194,4 @@ imgBouton4 = ImageTk.PhotoImage(file = "images/suivant.png")
 bouton4.configure(image = imgBouton4)
 fen.title("Traitement photo")
 fen.config(menu=menuTop)
-
 fen.mainloop()
