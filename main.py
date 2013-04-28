@@ -1,17 +1,6 @@
 #!/usr/bin/python2
 #-*- coding: UTF-8 -*-
 
-# Objectifs :
-#
-# -> charger l'image dans le canvas CLEAR
-# -> ouvrir une à partir du programmme pour la modifier CLEAR
-# -> creer une barre d'outils suplémentaire (afin de pouvoir par exemple revenir en arrière)
-# -> rendre fonctionnel le filtre dessin et creer de nouveaux filtres (dont celui de l'histogramme tel qu'enoncé dans le sujet)
-# -> creer une barre de chargement
-# -> donner la possibilté de revenir en arriere en stockant les anciennes images dans un tableau (à mettre dans la classe Image_open)
-# mais en limitant à un maximum de 15 images (arbitraire).
-# -> donner la possibilité de réinitialiser l'image (utiliser le champs Image_open.tabPixOriginal)
-
 from __future__ import print_function, division
 import sys
 from Tkinter import Tk, Frame, Canvas
@@ -50,110 +39,85 @@ def actualiserCanvas(image,xsize,ysize):
 	photo = ImageTk.PhotoImage(image)
 	workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
 	workbench.pack(photo)
+	
+def actualiserCanvas2(t,xsize,ysize):
+	imTmp = image.donneImage().copy()
+	imTmp.putdata(t)
+	image.ajouterImage(imTmp)
+	photo = ImageTk.PhotoImage(image.donneImage())
+	workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=photo)
+	workbench.pack(photo)
 
 def moyen2():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.moyen(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 
 def contour2():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.contour(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 
 def inversion2():
 	filtre = FiltreLut()
-	imTmp = image.donneImage().copy()
 	t = filtre.inversionC(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 	
 def cryptageC():
 	filtre = FiltreLut()
-	imTmp = image.donneImage().copy()
 	t = filtre.cryptageCouleur(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 	
 def decryptageC():
 	filtre = FiltreLut()
-	imTmp = image.donneImage().copy()
 	t = filtre.decryptageCouleur(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 def median():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.filtreMedian(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 def filtreCouleurVert():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleur(image,'V')
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 	
 def filtreCouleurRouge():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleur(image,'R')
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 def filtreCouleurBleu():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.filtreCouleur(image,'B')
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 def filtreGaussien():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.gaussien(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 
 def dessinCanvas():
 	filtre = Filtre()
-	imTmp = image.donneImage().copy()
 	t = filtre.dessin(image)
-	imTmp.putdata(t)
-	image.ajouterImage(imTmp)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(t,xsize,ysize)
 	
 def retourArriereCanvas():
 	imTmp = image.retourArriere()
 	if(imTmp != None):
-			actualiserCanvas(image.donneImage(),xsize,ysize)
+		actualiserCanvas2(image.tabPix,xsize,ysize)
 
 def retourAvantCanvas():
 	imTmp = image.retourAvant()
 	if(imTmp != None):
-			actualiserCanvas(image.donneImage(),xsize,ysize)
+		actualiserCanvas2(image.tabPix,xsize,ysize)
 			
 def reinitialiserImageCanvas():
 	reinitialiserImage(image)
-	actualiserCanvas(image.donneImage(),xsize,ysize)
+	actualiserCanvas2(image.tabPix,xsize,ysize)
 	
 def choisirImage():
 	try :

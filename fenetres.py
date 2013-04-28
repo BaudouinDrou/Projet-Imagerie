@@ -16,5 +16,8 @@ def nonRetourArriere():
 def nonRetourAvant():
 	tkMessageBox.showinfo("Erreur","Impossible d'aller à l'image suivante\n")
 
+def erreurDecryptage():
+	tkMessageBox.showinfo("Erreur","Impossible de décrypter une image non cryptée\n")
+
 def genericTextBox():
     tkMessageBox.showinfo("Title","Text\n")

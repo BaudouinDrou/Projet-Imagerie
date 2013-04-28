@@ -7,6 +7,29 @@ import Image
 import PSDraw
 from random import randint
 from math import *
+import sys
+from Tkinter import Tk, Frame, Canvas
+import ImageTk
+from Filtres import *
+from tkSimpleDialog import *
+import tkFileDialog
+from PIL import *
+from Image import *
+from filtreTool import *
+from Filtres import *
+from fenetres import *
+import time
+
+def testVoisins():
+	image = Image_open("images/imgUbuntu.jpg")
+	t = connexN(20,20,image.tabPix,(600,600),4)	
+	rep = "["
+	for i in range(len(t)):
+		rep += str(t[i]) + ","
+	rep += "]"
+	print(rep)
+	print("Longueur :")
+	print(len(t))
 
 def testCalculGauss(sigma):
 	print(calculGauss(0,0,sigma))
@@ -22,4 +45,4 @@ def testMasqueGaussien(sigma):
 	rep += "]"
 	print(rep)
 
-testMasqueGaussien(1)
+testVoisins()

@@ -133,6 +133,3 @@ def copyTabPix(tabPix):
 def reinitialiserImage(Image_open):
 	Image_open.tabPix = copyTabPix(Image_open.donneImage(0).getdata())
 	Image_open.donneImage().putdata(Image_open.tabPix)
-	print("tabReinit : ")
-	print(Image_open.tabPix[0])
-	print(Image_open.tabPix[0])	
