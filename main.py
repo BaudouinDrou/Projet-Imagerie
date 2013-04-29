@@ -100,6 +100,13 @@ def dessinCanvas():
 	filtre = Filtre()
 	t = filtre.dessin(image)
 	actualiserCanvas(t,image.largeur,image.hauteur)
+
+def histogramme():
+	hist = Histogramme()
+	hist.reinit(image)
+	hist.afficher(workbench)
+	actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
+	
 	
 def retourArriereCanvas():
 	imTmp = image.retourArriere()
@@ -160,6 +167,7 @@ menuFiltre.add_command(label="Vert",command=filtreCouleurVert)
 menuFiltre.add_command(label="Bleu",command=filtreCouleurBleu)
 menuFiltre.add_command(label="Dessin",command=dessinCanvas)
 menuFiltre.add_command(label="Gaussien",command=filtreGaussien)
+menuFiltre.add_command(label="Histogramme",command=histogramme)
 
 menuAide = Menu(menuTop)
 menuAide.add_command(label="Les outils",command=afficherOutils)
