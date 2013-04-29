@@ -144,6 +144,7 @@ def choisirImage():
 
 
 workbench = Canvas(fen,height=hauteurEcran,width=largeurEcran,bg="#666")
+workbench.create_image((largeurEcran - xsize)/2,(hauteurEcran - ysize)/2,anchor = NW,image=background)
 workbench.grid(row = 1, column = 1, rowspan = 20, columnspan = 200)
 
 statut = Label(text="Commencez le traitement !")
