@@ -58,11 +58,15 @@ class Histogramme:
 		for i in range(len(self.val)):
 			self.val[i] = (self.val[i]*self.hauteur)//max
 			
-	def afficher(self,canvas):
-		canvas.create_rectangle(0,0,len(self.val),256,fill='#666')
-		for i in range(len(self.val)):
-			canvas.create_rectangle(i,256-self.val[i],i+1,256,outline='#55CCFF')
+	def afficher(self):
+		fenHist = Toplevel()
+		canvas = Canvas(fenHist,height = 256, width = 512, bg = "white")
 		canvas.grid(row = 2, column = 0)
+		tmp = 0
+		for i in range(len(self.val)):
+			canvas.create_rectangle(tmp,256-self.val[i],tmp+2,256,outline='#55CCFF', fill = '#55CCFF')
+			tmp += 2
+			canvas.update()
 	
 	
 def connexN(x,y,data,size,n): #Les coordonées du point, le tableaude données, la taille du tableau, la largeur du masque

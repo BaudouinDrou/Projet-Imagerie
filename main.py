@@ -104,7 +104,7 @@ def dessinCanvas():
 def histogramme():
 	hist = Histogramme()
 	hist.reinit(image)
-	hist.afficher(workbench)
+	hist.afficher()
 	actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
 	
 	
@@ -138,6 +138,10 @@ def choisirImage():
 		image.changerImage(chemin)
 		redimensionner(image)
 		actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
+
+def saveFile():
+	fichier = tkFileDialog.asksaveasfilename()
+	image.donneImage().save(fichier)
 
 
 # -------------- MAIN ----------------------
@@ -201,6 +205,12 @@ bouton4.height = 1
 bouton4.grid(row = 0, column = 5)
 imgBouton4 = ImageTk.PhotoImage(file = "images/suivant.png")
 bouton4.configure(image = imgBouton4)
+bouton5 = Button(fen, background = "#333",command=saveFile)
+bouton5.width = 1
+bouton5.height = 1
+bouton5.grid(row = 0, column = 6)
+imgBouton5 = ImageTk.PhotoImage(file = "images/save.png")
+bouton5.configure(image = imgBouton5)
 fen.title("Traitement photo")
 fen.config(menu=menuTop)
 fen.mainloop()
