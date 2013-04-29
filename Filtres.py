@@ -8,6 +8,8 @@ import PSDraw
 from filtreTool import *
 from fenetres import *
 
+#largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
+
 class Image_open:
 
 	""" Classe definissant une image caracterisee par :
