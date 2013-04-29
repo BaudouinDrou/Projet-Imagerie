@@ -175,7 +175,6 @@ menuFiltre.add_command(label="Gaussien",command=filtreGaussien)
 menuFiltre.add_command(label="Histogramme",command=histogramme)
 
 menuAide = Menu(menuTop)
-menuAide.add_command(label="Les outils",command=afficherOutils)
 menuAide.add_command(label="A propos ...",command=afficherAPropos)
 
 menuTop.add_cascade(label="Image",menu=menuImage)
