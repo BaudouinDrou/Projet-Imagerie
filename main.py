@@ -134,7 +134,7 @@ def choisirImage():
 	except :
 		flag = False
 	if(flag == True):
-		workbench.delete(fen,"All")
+		workbench.delete(fen,"all")
 		image.changerImage(chemin)
 		redimensionner(image)
 		actualiserCanvas(image.tabPix,image.largeur,image.hauteur)

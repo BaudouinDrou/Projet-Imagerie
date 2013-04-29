@@ -132,7 +132,7 @@ class Image_open:
 	def donneTabYUV(self):
 		t = []
 		if (self.donneMode()=="NB"):
-			return tabPix
+			return self.tabPix
 		for i in range(len(self.tabPix)):
 			t.append(convertYUV(self.tabPix[i],self.donneMode()))
 		return t
@@ -140,7 +140,7 @@ class Image_open:
 	def donneTabLuminance(self):
 		t = []
 		if (self.donneMode()=="NB"):
-			return tabPix
+			return self.tabPix
 		for i in range(len(self.tabPix)):
 			t.append(convertY(self.tabPix[i],self.donneMode()))
 		return t
