@@ -129,10 +129,11 @@ def reinitialiserImageCanvas():
 def choisirImage():
 	try :
 		chemin = tkFileDialog.askopenfilename(filetypes = [("Bilddateien", "*.jpg *.png *.gif *jpeg")])
+		print(chemin)
 		flag = True
 	except :
 		flag = False
-	if(flag == True):
+	if((flag == True) and (len(chemin) > 1)):
 		workbench.delete(fen,"all")
 		image.changerImage(chemin)
 		redimensionner(image)
