@@ -16,7 +16,7 @@ from Filtres import *
 from fenetres import *
 import time
 fen = Tk()
-image = Image_open("images/imgUbuntu.jpg")
+image = Image_open("images/imgDefaut.png")
 background = ImageTk.PhotoImage(image.donneImage())
 largeurEcran , hauteurEcran = fen.winfo_screenwidth(),fen.winfo_screenheight()
 xsize,ysize = image.largeur, image.hauteur
@@ -156,8 +156,7 @@ statut.grid(column=1,row=22)
 menuTop = Menu(fen)
 
 menuImage = Menu(menuTop)
-menuImage.add_command(label="Nouvelle Image",command=None)
-menuImage.add_separator()
+menuImage.add_command(label="Nouvelle Image",command=choisirImage)
 menuImage.add_command(label="Quitter",command=fen.destroy)
 
 menuFiltre = Menu(menuTop)
