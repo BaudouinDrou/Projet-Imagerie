@@ -105,7 +105,6 @@ def histogramme():
 	hist = Histogramme()
 	hist.reinit(image)
 	hist.afficher()
-	actualiserCanvas(image.tabPix,image.largeur,image.hauteur)
 	
 	
 def retourArriereCanvas():
