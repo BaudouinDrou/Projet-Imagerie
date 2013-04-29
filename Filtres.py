@@ -108,8 +108,8 @@ class Image_open:
 		self.tabIm = []
 		try :
 			self.tabIm.append(Image.open(nom))
-			self.indice = 0
-			self.indiceMax = 0
+			self.indice = -1
+			self.indiceMax = -1
 			try : 
 				self.tabPixOriginal = list(self.tabIm[0].getdata())
 				self.tabPix = list(self.tabIm[0].getdata())
